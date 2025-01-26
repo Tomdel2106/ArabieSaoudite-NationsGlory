@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arabie Saoudite - NationsGlory</title>
-    <script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arabie Saoudite - NationsGlory</title>
 </head>
 <body>
-    <h1>Gestion de l'Arabie Saoudite</h1>
-    <form id="form">
-        <label for="pseudo">Pseudo : </label>
-        <input type="text" id="pseudo" required />
-        <label for="server">Serveur : </label>
-        <select id="server">
-            <option value="mocha">Mocha</option>
-            <option value="cyan">Cyan</option>
-        </select>
-        <button type="submit">Rechercher</button>
-    </form>
-    <div id="result"></div>
+  <h1>Gestion de l'Arabie Saoudite - NationsGlory</h1>
+
+  <label for="pseudo">Pseudo :</label>
+  <input type="text" id="pseudo" placeholder="Entrez votre pseudo" />
+
+  <label for="server">Serveur :</label>
+  <select id="server">
+    <option value="mocha">Mocha</option>
+    <option value="cyan">Cyan</option>
+  </select>
+
+  <button id="searchButton">Rechercher</button>
+
+  <div id="result"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
