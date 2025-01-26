@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NationsGlory</title>
+    <title>Arabie Saoudite - NationsGlory</title>
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <h1>Bienvenue sur le site NationsGlory</h1>
+    <h1>Gestion de l'Arabie Saoudite</h1>
+    <form id="form">
+        <label for="pseudo">Pseudo : </label>
+        <input type="text" id="pseudo" required />
+        <label for="server">Serveur : </label>
+        <select id="server">
+            <option value="mocha">Mocha</option>
+            <option value="cyan">Cyan</option>
+        </select>
+        <button type="submit">Rechercher</button>
+    </form>
+    <div id="result"></div>
 </body>
 </html>
