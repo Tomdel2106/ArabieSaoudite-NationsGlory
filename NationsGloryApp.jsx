@@ -1,78 +1,77 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import NationsAPI from "nationsapi";
 
-const NationsGloryApp = () => {
-  const [pseudo, setPseudo] = useState('');
-  const [server, setServer] = useState('mocha');
-  const [playerData, setPlayerData] = useState(null);
-  const [error, setError] = useState('');
+const apiKey = "NGAPI_!8mZ^p@cGL8yUrHhxPxXz9Fp$Bwm7(vs1b023cd64275680ac280b6e1397dea5c";
 
-  const handleSearch = async () => {
-    setError('');
-    setPlayerData(null);
+function NationsGloryApp() {
+  const [server, setServer] = useState("mocha");
+  const [pseudo, setPseudo] = useState("");
+  const [countryData, setCountryData] = useState(null);
+  const [error, setError] = useState(null);
+
+  const fetchCountryData = async () => {
     try {
-      const response = await axios.get(
-        `https://publicapi.nationsglory.fr/country/${server}/${pseudo.toLowerCase()}`,
-        {
-          headers: {
-            Accept: 'application/json',
-            Authorization: 'Bearer NGAPI_!8mZ^p@cGL8yUrHhxPxXz9Fp$Bwm7(vs1b023cd64275680ac280b6e1397dea5c',
-          },
-        }
-      );
-      setPlayerData(response.data);
+      setError(null);
+      setCountryData(null);
+
+      // Initialize NationsAPI client
+      const api = new NationsAPI(apiKey);
+
+      // Fetch country data
+      const data = await api.getCountry(server, pseudo.toLowerCase());
+      setCountryData(data);
     } catch (err) {
-      setError('Erreur lors de la récupération des données. Vérifiez le pseudo et le serveur.');
+      setError("Erreur lors de la récupération des données. Veuillez vérifier le pseudo ou le serveur.");
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <Card className="w-full max-w-md p-4 bg-white shadow-md rounded-2xl">
-        <CardContent>
-          <h1 className="text-2xl font-bold mb-4">Gestion de l'Arabie Saoudite</h1>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Pseudo</label>
-            <input
-              type="text"
-              value={pseudo}
-              onChange={(e) => setPseudo(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Entrez votre pseudo"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Serveur</label>
-            <select
-              value={server}
-              onChange={(e) => setServer(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              <option value="mocha">Mocha</option>
-              <option value="cyan">Cyan</option>
-            </select>
-          </div>
-          <Button onClick={handleSearch} className="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-md">
-            Rechercher
-          </Button>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Gestion de l'Arabie Saoudite - NationsGlory</h1>
 
-          {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+      <div className="mb-4">
+        <label className="block font-medium">Pseudo :</label>
+        <input
+          type="text"
+          value={pseudo}
+          onChange={(e) => setPseudo(e.target.value)}
+          className="border rounded p-2 w-full"
+          placeholder="Entrez votre pseudo"
+        />
+      </div>
 
-          {playerData && (
-            <div className="mt-6">
-              <h2 className="text-xl font-semibold">Informations du joueur</h2>
-              <p><strong>Pseudo :</strong> {playerData.name}</p>
-              <p><strong>Pays :</strong> {playerData.country}</p>
-              <p><strong>Serveur :</strong> {server}</p>
-              {/* Ajoutez d'autres informations pertinentes */}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      <div className="mb-4">
+        <label className="block font-medium">Serveur :</label>
+        <select
+          value={server}
+          onChange={(e) => setServer(e.target.value)}
+          className="border rounded p-2 w-full"
+        >
+          <option value="mocha">Mocha</option>
+          <option value="cyan">Cyan</option>
+        </select>
+      </div>
+
+      <button
+        onClick={fetchCountryData}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Rechercher
+      </button>
+
+      {error && <p className="text-red-500 mt-4">{error}</p>}
+
+      {countryData && (
+        <div className="mt-4 p-4 border rounded shadow">
+          <h2 className="text-lg font-bold">Informations du pays :</h2>
+          <p><strong>Pays :</strong> {countryData.name}</p>
+          <p><strong>Serveur :</strong> {countryData.server}</p>
+          <p><strong>Population :</strong> {countryData.population}</p>
+          {/* Ajoute d'autres informations si nécessaire */}
+        </div>
+      )}
     </div>
   );
-};
+}
 
 export default NationsGloryApp;
